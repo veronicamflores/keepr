@@ -1,17 +1,50 @@
 <template>
-  <div class="home">
-    <h1>Welcome Home</h1>
+  <div class="home container-fluid">
+    <nav class="navbar row yellow-bg">
+        <div class="col-2 mt-2 mb-2">
+          <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
+        </div>
+        <div class="col-8 mt-2 mb-2">
+          <form class="form-inline md-form form-sm">
+            <input class="form-control form-control-md w-100" type="text" placeholder="Search" aria-label="Search">
+          </form>
+        </div>
+        <div class="col-2 mt-2 mb-2">
+          <router-link to="/login"><a>Login/Register</a></router-link>
+        </div>
+    </nav>
+    <div class="row">
+      <div class="col-12">
+        <AllKeeps/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "home",
-    mounted() {
-      //blocks users not logged in
-      if (!this.$store.state.user.id) {
-        this.$router.push({ name: "login" });
-      }
+import AllKeeps from "@/components/AllKeeps";
+export default {
+  name: "home",
+  mounted() {
+    this.$store.dispatch("getAllKeeps");
+    //blocks users not logged in
+    if (!this.$store.state.user.id) {
+      this.$router.push({ name: "login" });
     }
-  };
+  },
+  components: {
+    AllKeeps
+  }
+};
 </script>
+<style>
+a:hover {
+  color: #35d0ba;
+}
+a {
+  color: #c93d1b;
+}
+.yellow-bg {
+  background-color: #f8c43a;
+}
+</style>

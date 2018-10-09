@@ -6,7 +6,7 @@ namespace keepr.Models
     public class Keep
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         [MinLength(6)]
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace keepr.Models
 
 
         public Keep() { }
-        public Keep(string name, string description, string img, int userId, int isPrivate = 0)
+        public Keep(string name, string description, string img, string userId, int isPrivate = 0)
         {
             Name = name;
             Description = description;

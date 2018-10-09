@@ -33,6 +33,13 @@ namespace keepr.Controllers
             throw new Exception("INVALID KEEP");
         }
 
+        [HttpDelete("{id}")]
+
+        public void Delete(Keep keep)
+        {
+            _repo.Delete(keep);
+        }
+
     }
 
 }
