@@ -17,7 +17,7 @@ namespace keepr.Models
         {
             Name = name;
             Description = description;
-            UserId = UserId;
+            UserId = userId;
         }
     }
 }

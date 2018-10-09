@@ -22,6 +22,11 @@ namespace keepr.Controllers
             return _repo.GetAll();
         }
 
+        [HttpGet("vault/{id}")]
+        public IEnumerable<Keep> Get(int id)
+        {
+            return _repo.GetByVaultId(id);
+        }
         [HttpPost]
         public Keep Post([FromBody] Keep keep)
         {
@@ -31,6 +36,17 @@ namespace keepr.Controllers
                 return _repo.Create(keep);
             }
             throw new Exception("INVALID KEEP");
+        }
+
+        [HttpPost("{vaultkeeps}")]
+        public VaultKeep PostVaultKeep([FromBody] VaultKeep vk)
+        {
+            if(ModelState.IsValid)
+            {
+                vk = new VaultKeep(vk.UserId, vk.KeepId, vk.VaultId);
+                return _repo.CreateVaultKeep(vk);
+            }
+            throw new Exception("Invalid VaultKeep");
         }
 
         [HttpDelete("{id}")]
