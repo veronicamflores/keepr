@@ -21,7 +21,12 @@ namespace keepr.Controllers
         {
             return _repo.GetAll();
         }
+        [HttpGet("{userid}")]
 
+        public IEnumerable<Vault> GetUserVaults(string userid)
+        {
+            return _repo.GetById(userid);
+        }
         [HttpPost]
         public Vault Post([FromBody] Vault vault)
         {

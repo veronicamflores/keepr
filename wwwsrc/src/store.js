@@ -20,7 +20,9 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    keeps: []
+    keeps: [],
+    userKeeps: [],
+    vaults: []
   },
   mutations: {
     setUser(state, user) {
@@ -28,6 +30,12 @@ export default new Vuex.Store({
     },
     setKeeps(state, keeps) {
       state.keeps = keeps
+    },
+    setUserKeeps(state, userkeeps) {
+      state.userKeeps = userkeeps
+    },
+    setUserVaults(state, vaults) {
+      state.vaults = vaults
     }
   },
   actions: {
@@ -36,6 +44,8 @@ export default new Vuex.Store({
         .then(res => {
           commit('setUser', res.data)
           router.push({ name: 'home' })
+          dispatch('GetUserKeeps', res.data.id)
+          dispatch('GetUserVaults', res.data.id)
         })
         .catch(e => {
           console.log('[registration failed] :', e)
@@ -46,6 +56,8 @@ export default new Vuex.Store({
         .then(res => {
           commit('setUser', res.data)
           router.push({ name: 'home' })
+          dispatch('GetUserKeeps', res.data.id)
+          dispatch('GetUserVaults', res.data.id)
         })
         .catch(e => {
           console.log('not authenticated')
@@ -56,19 +68,36 @@ export default new Vuex.Store({
         .then(res => {
           commit('setUser', res.data)
           router.push({ name: 'home' })
+          dispatch('GetUserVaults', res.data.id)
+          dispatch('GetUserKeeps', res.data.id)
         })
         .catch(e => {
           console.log('Login Failed')
         })
     },
 
-    //Keeps
+    // ALL Keeps
     getAllKeeps({ commit, dispatch }) {
       api.get("keeps")
         .then(res => {
           commit("setKeeps", res.data)
         })
+    },
 
+    //USER Keeps
+    getUserKeeps({ commit }, userId) {
+      api.get("keeps/" + userId)
+        .then(res => {
+          commit("setUserKeeps", res.data)
+        })
+    },
+
+    //User Vaults
+    GetVaults({ commit }, userId) {
+      api.get("vaults/" + userId)
+        .then(res => {
+          commit("SetUserVaults", res.data)
+        })
     }
   }
 })

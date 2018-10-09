@@ -9,8 +9,13 @@
             <input class="form-control form-control-md w-100" type="text" placeholder="Search" aria-label="Search">
           </form>
         </div>
-        <div class="col-2 mt-2 mb-2">
+        <div class="col-2 mt-2 mb-2" v-if="user.id == null">
           <router-link to="/login"><a>Login/Register</a></router-link>
+        </div>
+        <div class="col-2 mt-2 mb-2" v-else>
+          <router-link to="/profile"><a>Profile</a></router-link> |
+          <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
+          <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
         </div>
     </nav>
     <div class="row">
@@ -25,7 +30,13 @@
 import AllKeeps from "@/components/AllKeeps";
 export default {
   name: "home",
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   mounted() {
+    this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
     this.$store.dispatch("getAllKeeps");
     //blocks users not logged in
     if (!this.$store.state.user.id) {

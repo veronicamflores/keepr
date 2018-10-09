@@ -22,11 +22,17 @@ namespace keepr.Controllers
             return _repo.GetAll();
         }
 
+        [HttpGet("{userid}")]
+        public IEnumerable<Keep> Get(string userid)
+        {
+            return _repo.GetById(userid);
+        }
         [HttpGet("vault/{id}")]
         public IEnumerable<Keep> Get(int id)
         {
             return _repo.GetByVaultId(id);
         }
+
         [HttpPost]
         public Keep Post([FromBody] Keep keep)
         {

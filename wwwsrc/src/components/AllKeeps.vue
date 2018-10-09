@@ -8,7 +8,6 @@
                     <p class="card-text">{{keep.name}}</p>
                 </div> 
             </div>
-            
         </div>
     </div>
 </template>
