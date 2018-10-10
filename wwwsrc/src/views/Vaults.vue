@@ -45,6 +45,11 @@ export default {
       vaultDescription: ""
     };
   },
+  created() {
+    if (!this.$store.state.user.id) {
+      this.$router.push({ name: "home" });
+    }
+  },
   computed: {
     userVaults() {
       return this.$store.state.vaults;

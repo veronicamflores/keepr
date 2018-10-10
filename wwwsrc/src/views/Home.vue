@@ -35,6 +35,9 @@ export default {
       return this.$store.state.user;
     }
   },
+  created() {
+    this.$store.dispatch("getAllKeeps");
+  },
   mounted() {
     this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
     this.$store.dispatch("getUserVaults", this.$store.state.user.id);

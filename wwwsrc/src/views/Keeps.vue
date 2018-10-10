@@ -55,6 +55,11 @@ export default {
       keepImg: ""
     };
   },
+  created() {
+    if (!this.$store.state.user.id) {
+      this.$router.push({ name: "home" });
+    }
+  },
   methods: {
     deleteKeeps(keepData) {
       this.$store.dispatch("deleteKeeps", keepData);
