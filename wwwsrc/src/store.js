@@ -96,7 +96,7 @@ export default new Vuex.Store({
         })
     },
     deleteKeeps({ dispatch }, keepData) {
-      api.post("keeps/" + keepData.id, keepData)
+      api.delete("keeps/" + keepData.id, keepData.id)
         .then(res => {
           dispatch("getUserKeeps", keepData.userId)
         })

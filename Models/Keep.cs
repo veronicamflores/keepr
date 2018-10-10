@@ -41,7 +41,7 @@ namespace keepr.Models
 
 
         public Keep() { }
-        public Keep(string name, string description, string img, string userId, int isPrivate = 0)
+        public Keep(string name, string description, string img, string userId, int isPrivate)
         {
             Name = name;
             Description = description;

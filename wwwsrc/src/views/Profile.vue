@@ -18,11 +18,13 @@
               <div class="row mt-2 mb-2">
                 <div class="col-3"><h2>My Keeps</h2></div>
                 <div class="col-9">
-                  <form class="form-inline" @submit.prevent="createKeep">
-                    <input class="form-control p-2" type="text" v-model="keepName" placeholder="Keep Name">
-                    <input class="form-control p-2" type="text" v-model="keepDescription" placeholder="Keep Description">
-                    <input class="form-control p-2" type="text" v-model="keepImg" placeholder="Keep Img">
-                    <button class="btn" type="submit">Sumbit</button>
+                  <form class="form-inline row" @submit.prevent="createKeep">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Keep Name">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepDescription" placeholder="Keep Description">
+                    <input class="form-control p-2 col-2" type="text" v-model="keepImg" placeholder="Keep Img">
+                    <label for="private">Private?</label>
+                    <input type="checkbox" name="private" class="form-control" unchecked>
+                    <button class="btn col-1" type="submit">+</button>
                   </form>
                 </div>
               </div>
@@ -82,12 +84,15 @@ export default {
   },
   methods: {
     createKeep() {
+      if (!document.getElementsByName("private").checked) {
+        this.isPrivate = 0;
+      }
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
         userId: this.user.id,
         img: this.keepImg,
-        isPrivate: 0
+        isPrivate: 1
       };
       this.$store.dispatch("createKeeps", keepData);
       this.keepName = "";

@@ -31,12 +31,12 @@
             <div class="card-body">
                 <h4 class="card-title">{{keep.name}}</h4>
                 <p class="card-text">{{keep.description}}</p>
-                <p>Keeps: {{keep.keeps}} | Views: {{keep.views}} | Shares: {{keep.shares}}</p>
+                <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}   <i class="far fa-eye"></i>: {{keep.views}}   <i class="fas fa-bookmark"></i>: {{keep.shares}}</p>
                 <p v-if="keep.isPrivate == 0">Public</p>
                 <p v-else>Private</p>
-                <span @click="deleteKeeps({name: keep.name, description: keep.description, views: keep.views, shares: keep.shares, isPrivate: keep.isPrivate, id: keep.id, img: keep.img, userId: keep.userId})">Delete</span>
-                <span>| Edit </span>
-                <span>| Add To Vault</span>
+                <span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
+                <span><i class="fas fa-edit"></i> &nbsp;</span>
+                <span><i class="fas fa-folder-plus"></i></span>
             </div> 
         </div>
     </div>
@@ -70,7 +70,7 @@ export default {
         description: this.keepDescription,
         userId: this.user.id,
         img: this.keepImg,
-        isPrivate: 0
+        isPrivate: 1
       };
       this.$store.dispatch("createKeeps", keepData);
       this.keepName = "";

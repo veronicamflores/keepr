@@ -1,6 +1,6 @@
 <template>
     <div class="keep row">
-        <div class="col-3 mt-4" v-for="keep in keeps" :key="keep.id">
+        <div class="col-3 mt-4" v-for="keep in keeps" :key="keep.id" >
             <div class="card" v-if="keep.isPrivate == 0">
                <img :src="keep.img" class="card-img-top" :alt="keep.name">
                 <div class="card-body">

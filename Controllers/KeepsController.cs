@@ -38,7 +38,7 @@ namespace keepr.Controllers
         {
             if (ModelState.IsValid)
             {
-                keep = new Keep(keep.Name, keep.Description, keep.Img, keep.UserId);
+                keep = new Keep(keep.Name, keep.Description, keep.Img, keep.UserId, keep.IsPrivate);
                 return _repo.Create(keep);
             }
             throw new Exception("INVALID KEEP");
@@ -63,9 +63,9 @@ namespace keepr.Controllers
  
         [HttpDelete("{id}")]
 
-        public void Delete(Keep keep)
+        public void Delete(int id)
         {
-            _repo.Delete(keep);
+            _repo.Delete(id);
         }
 
     }
