@@ -1,34 +1,36 @@
 <template>
-<div class="row myvaults">
-    <div class="col-6" v-for="vault in userVaults" :key="vault.id">
+<div class="row myvaults mb-2 mt-2 pl-2">
+    <div class="col-3 bd-round " v-for="vault in userVaults" :key="vault.id">
         <div class="row">
-            <div class="col-12"><h1>{{vault.name}}</h1></div>
+            <div class="col-12 bg-black"><p>{{vault.name}}</p></div>
             <div class="col-12">
-                <div class="row">
-                    <div class="col-2" v-for="keep in vaultKeeps" :key="keep.id">
-
-                    </div>
-                </div>
+                <VaultKeeps :vaultId="vault.id"/>
             </div>
         </div>
-        
-
     </div>
 </div>
 </template>
 <script>
+import VaultKeeps from "@/components/VaultKeeps";
 export default {
   name: "myvaults",
   computed: {
-    vaultKeeps() {
-      return this.$store.state.vaultKeeps;
-    },
     userVaults() {
       return this.$store.state.vaults;
     }
+  },
+  components: {
+    VaultKeeps
   }
 };
 </script>
 <style>
+.bg-black {
+  background-color: #35d0ba;
+}
+.bd-round {
+  border: 2px solid #35d0ba;
+  border-radius: 5px;
+}
 </style>
 

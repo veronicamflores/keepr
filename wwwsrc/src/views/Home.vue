@@ -9,7 +9,7 @@
             <input class="form-control form-control-md w-100" type="text" placeholder="Search" aria-label="Search">
           </form>
         </div>
-        <div class="col-2 mt-2 mb-2" v-if="user.id == null">
+        <div class="col-2 mt-2 mb-2" v-if="user.id == null ">
           <router-link to="/login"><a>Login/Register</a></router-link>
         </div>
         <div class="col-2 mt-2 mb-2" v-else>
@@ -37,11 +37,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
+    this.$store.dispatch("getUserVaults", this.$store.state.user.id);
     this.$store.dispatch("getAllKeeps");
     //blocks users not logged in
-    if (!this.$store.state.user.id) {
-      this.$router.push({ name: "login" });
-    }
   },
   components: {
     AllKeeps

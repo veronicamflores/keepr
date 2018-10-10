@@ -6,8 +6,6 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 //@ts-ignore
 import Profile from './views/Profile.vue'
-import Keep from './views/Keep.vue'
-import Vault from './views/Vault.vue'
 import Keeps from './views/Keeps.vue'
 import Vaults from './views/Vaults.vue'
 
@@ -29,16 +27,6 @@ export default new Router({
             path: '/profile',
             name: 'profile',
             component: Profile
-        },
-        {
-            path: '/keep',
-            name: 'keep',
-            component: Keep
-        },
-        {
-            path: '/vault',
-            name: 'vault',
-            component: Vault
         },
         {
             path: '/profile/keeps',

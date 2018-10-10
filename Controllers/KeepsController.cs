@@ -55,6 +55,12 @@ namespace keepr.Controllers
             throw new Exception("Invalid VaultKeep");
         }
 
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Keep keep)
+        {
+            _repo.Update(keep);
+        }
+
         [HttpDelete("{id}")]
 
         public void Delete(Keep keep)

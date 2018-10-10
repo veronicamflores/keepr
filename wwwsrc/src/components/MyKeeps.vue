@@ -1,7 +1,7 @@
 <template>
 <div class="mykeeps row">
     <div class="col-3  mb-2 mt-2" v-for="keep in userKeeps" :key="keep.id">
-        <img :src="keep.img" class="roundimg img-fluid" :alt="keep.name">
+        <img :src="keep.img" class="img-fluid round-border" :alt="keep.name">
     </div>
 </div>
 </template>
@@ -17,8 +17,8 @@ export default {
 };
 </script>
 <style>
-.roundimg {
-  border-radius: 100%;
+.round-border {
+  border-radius: 10px;
 }
 </style>
 

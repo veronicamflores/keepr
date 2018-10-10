@@ -13,7 +13,7 @@ let auth = Axios.create({
 
 let api = Axios.create({
   baseURL: "//localhost:5000/api/",
-  timeout: 3000,
+  timeout: 5000,
   withCredentials: true
 })
 
@@ -22,7 +22,8 @@ export default new Vuex.Store({
     user: {},
     keeps: [],
     userKeeps: [],
-    vaults: []
+    vaults: [],
+    vaultKeeps: {}
   },
   mutations: {
     setUser(state, user) {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     setUserVaults(state, vaults) {
       state.vaults = vaults
+    },
+    setVaultKeeps(state, data) {
+      Vue.set(state.vaultKeeps, data.vaultId, data.keeps);
     }
   },
   actions: {
@@ -43,9 +47,7 @@ export default new Vuex.Store({
       auth.post('register', newUser)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
-          dispatch('GetUserKeeps', res.data.id)
-          dispatch('GetUserVaults', res.data.id)
+          router.push({ name: 'profile' })
         })
         .catch(e => {
           console.log('[registration failed] :', e)
@@ -55,9 +57,7 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
-          dispatch('GetUserKeeps', res.data.id)
-          dispatch('GetUserVaults', res.data.id)
+          router.push({ name: 'profile' })
         })
         .catch(e => {
           console.log('not authenticated')
@@ -67,9 +67,7 @@ export default new Vuex.Store({
       auth.post('login', creds)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
-          dispatch('GetUserVaults', res.data.id)
-          dispatch('GetUserKeeps', res.data.id)
+          router.push({ name: 'profile' })
         })
         .catch(e => {
           console.log('Login Failed')
@@ -91,13 +89,44 @@ export default new Vuex.Store({
           commit("setUserKeeps", res.data)
         })
     },
-
+    createKeeps({ dispatch }, keepData) {
+      api.post("keeps", keepData)
+        .then(res => {
+          dispatch("getUserKeeps", keepData.userId)
+        })
+    },
+    deleteKeeps({ dispatch }, keepData) {
+      api.post("keeps/" + keepData.id, keepData)
+        .then(res => {
+          dispatch("getUserKeeps", keepData.userId)
+        })
+    },
     //User Vaults
-    GetVaults({ commit }, userId) {
+    getUserVaults({ commit }, userId) {
       api.get("vaults/" + userId)
         .then(res => {
-          commit("SetUserVaults", res.data)
+          commit("setUserVaults", res.data)
+        })
+    },
+    createVaults({ dispatch }, vaultData) {
+      api.post("vaults", vaultData)
+        .then(res => {
+          dispatch("getUserVaults", vaultData.userId)
+        })
+    },
+    deleteVaults({ dispatch }, vaultData) {
+      api.post("vaults/" + vaultData.id, vaultData)
+        .then(res => {
+          dispatch("getUserVaults", vaultData.userId)
+        })
+    },
+    //Get Vault Keeps
+    getVaultKeeps({ commit }, vaultId) {
+      api.get("keeps/vault/" + vaultId)
+        .then(res => {
+          commit("setVaultKeeps", { vaultId, keeps: res.data })
         })
     }
+
   }
 })
