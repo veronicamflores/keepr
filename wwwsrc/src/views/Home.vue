@@ -20,7 +20,7 @@
     </nav>
     <div class="row">
       <div class="col-12">
-        <AllKeeps/>
+        <AllKeeps :userId="user.id"/>
       </div>
     </div>
   </div>
@@ -40,7 +40,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("authenticate");
-    this.$store.dispatch("getVaultKeepsId");
     this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
     this.$store.dispatch("getUserVaults", this.$store.state.user.id);
     this.$store.dispatch("getAllKeeps");

@@ -23,10 +23,15 @@ export default new Vuex.Store({
     keeps: [],
     userKeeps: [],
     vaults: [],
-    vaultKeeps: {},
-    vaultKeepsId: {}
+    vaultKeeps: {}
   },
   mutations: {
+    clearUser(state) {
+      state.user = {},
+        state.userKeeps = [],
+        state.vaults = [],
+        state.vaultKeeps = {}
+    },
     setUser(state, user) {
       state.user = user
     },
@@ -76,6 +81,12 @@ export default new Vuex.Store({
         .catch(e => {
           console.log('Login Failed')
         })
+    },
+    logout({ commit }) {
+      auth.delete("logout").then(() => {
+        commit("clearUser");
+        router.push({ name: "home" });
+      });
     },
 
     // ALL Keeps
@@ -131,12 +142,6 @@ export default new Vuex.Store({
           commit("setVaultKeeps", { vaultId, keeps: res.data })
         })
     },
-    getVaultKeepsId({ commit }) {
-      api.get("keeps/vaultkeeps/")
-        .then(res => {
-          commit("setVaultKeepsId", { vaultId: res.data.vaultId, vaultKeeps: res.data })
-        })
-    },
     //add a keep to a vault
     makeVaultKeeps({ dispatch }, vaultKeepData) {
       api.post("keeps/vaultkeeps/", vaultKeepData)
@@ -153,4 +158,3 @@ export default new Vuex.Store({
     }
 
   }
-})

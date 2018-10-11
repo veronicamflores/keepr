@@ -19,11 +19,13 @@
         <div class="row mt-2 mb-2">
                 <div class="col-12"><h2>My Keeps</h2></div>
                 <div class="col-12">
-                  <form class="form-inline" @submit.prevent="createKeep">
-                    <input class="form-control p-2" type="text" v-model="keepName" placeholder="Keep Name">
-                    <input class="form-control p-2" type="text" v-model="keepDescription" placeholder="Keep Description">
-                    <input class="form-control p-2" type="text" v-model="keepImg" placeholder="Keep Img">
-                    <button class="btn" type="submit">Sumbit</button>
+                  <form class="form-inline row d-flex justify-content-around" @submit.prevent="createKeep">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Keep Title">
+                    <input class="form-control p-2 col-4" type="text" v-model="keepDescription" placeholder="Keep Description">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepImg" placeholder="Keep Img">
+                    <label for="private">Private?</label>
+                    <input type="checkbox" name="private" class="form-control" unchecked>
+                    <button class="btn btn-warning col-1" type="submit">Create Keep</button>
                   </form>
                 </div>
               </div>
@@ -35,13 +37,16 @@
                 <h4 class="card-title">{{keep.name}}</h4>
                 <p class="card-text">{{keep.description}}</p>
                 <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}   <i class="far fa-eye"></i>: {{keep.views}}   <i class="fas fa-bookmark"></i>: {{keep.shares}}</p>
-                <p v-if="keep.isPrivate == 0">Public</p>
-                <p v-else>Private</p>
-                <span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
-                <span><i class="fas fa-edit"></i> &nbsp;</span>
-                <span><i class="fas fa-folder-plus"></i></span>
-                <span v-for="vault in vaults" :key="vault.id">
-                  <p @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</p>
+                <p><span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
+                <span @click="editVisible = !editVisible" ><i class="fas fa-edit"></i> &nbsp;</span>
+                <span @click="addVisible = !addVisible"><i class="fas fa-folder-plus"></i></span></p>
+                <span v-if="addVisible" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
+                  <button class="btn btn-success mt-1 mb-1" @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</button>
+                </span>
+                <span v-if="editVisible" class="">
+                  <form @submit.prevent="editNameKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                  <form @submit.prevent="editDescriptionKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Description"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                  <form @submit.prevent="editViewKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Private/Public"> <button class="btn btn-success col-2 form-control">+</button> </form>
                 </span>
             </div> 
         </div>
@@ -58,7 +63,10 @@ export default {
     return {
       keepName: "",
       keepDescription: "",
-      keepImg: ""
+      keepImg: "",
+      addVisible: false,
+      editVisible: false,
+      isPrivate: 0
     };
   },
   created() {
@@ -76,7 +84,7 @@ export default {
         description: this.keepDescription,
         userId: this.user.id,
         img: this.keepImg,
-        isPrivate: 1
+        isPrivate: this.isPrivate
       };
       this.$store.dispatch("createKeeps", keepData);
       this.keepName = "";
@@ -90,7 +98,10 @@ export default {
         userId: this.user.id
       };
       this.$store.dispatch("makeVaultKeeps", vaultKeepData);
-    }
+    },
+    editNameKeep(keepId) {},
+    editDescriptionKeep(keepId) {},
+    editPrivateKeep(keepId) {}
   },
   computed: {
     user() {
@@ -108,8 +119,5 @@ export default {
 <style>
 .round-border {
   border-radius: 10px;
-}
-p:hover {
-  color: blue;
 }
 </style>

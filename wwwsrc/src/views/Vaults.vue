@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid vaults mb-2 mt-2">
+<div class="container-fluid vaults">
      <nav class="navbar row yellow-bg">
           <div class="col-2 mt-2 mb-2">
             <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
@@ -16,10 +16,10 @@
         <div class="row mt-2 mb-2">
                 <div class="col-12"><h2>My Vaults</h2></div>
                 <div class="col-12">
-                  <form class="form-inline" @submit.prevent="createVault">
-                    <input class="form-control p-2" type="text" v-model="vaultName" placeholder="Vault Name">
-                    <input class="form-control p-2" type="text" v-model="vaultDescription" placeholder="Vault Description">
-                    <button class="btn" type="submit">Sumbit</button>
+                  <form class="form-inline row d-flex justify-content-around" @submit.prevent="createVault">
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultName" placeholder="Vault Title">
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultDescription" placeholder="Vault Description">
+                    <button class="btn btn-warning col-1" type="submit">Create Vault</button>
                   </form>
                 </div>
               </div>

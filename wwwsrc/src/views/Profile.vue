@@ -4,16 +4,13 @@
           <div class="col-2 mt-2 mb-2">
             <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
           </div>
-          <div class="col-2 mt-2 mb-2">
-            <p>Hello {{user.username}}</p>
-          </div>
           <div class="col-6 mt-2 mb-2">
             <router-link to="/profile"><a>Profile</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
           </div>
           <div class="col-2 mt-2 mb-2">
-            <a href="#">Logout</a>
+            <button @click="logout" class="btn btn-danger">Logout</button>
           </div>
         </nav>
         <div class="row">
@@ -21,13 +18,13 @@
               <div class="row mt-2 mb-2">
                 <div class="col-3"><h2>My Keeps</h2></div>
                 <div class="col-9">
-                  <form class="form-inline row" @submit.prevent="createKeep">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Keep Name">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepDescription" placeholder="Keep Description">
-                    <input class="form-control p-2 col-2" type="text" v-model="keepImg" placeholder="Keep Img">
-                    <!-- <label for="private">Private?</label>
-                    <input type="checkbox" name="private" class="form-control" unchecked> -->
-                    <button class="btn col-1" type="submit">+</button>
+                  <form class="form-inline row d-flex justify-content-around" @submit.prevent="createKeep">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Title">
+                    <input class="form-control p-2 col-4" type="text" v-model="keepDescription" placeholder="Description">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepImg" placeholder="Img">
+                    <label for="private">Private?</label>
+                    <input type="checkbox" name="private" class="form-control" unchecked>
+                    <button class="btn btn-warning col-1" type="submit">Create</button>
                   </form>
                 </div>
               </div>
@@ -39,10 +36,10 @@
               <div class="row mt-2 mb-2">
                 <div class="col-3"><h2>My Vaults</h2></div>
                 <div class="col-9">
-                  <form class="form-inline" @submit.prevent="createVault">
-                    <input class="form-control p-2" type="text" v-model="vaultName" placeholder="Vault Name">
-                    <input class="form-control p-2" type="text" v-model="vaultDescription" placeholder="Vault Description">
-                    <button class="btn" type="submit">Sumbit</button>
+                  <form class="form-inline row d-flex justify-content-around" @submit.prevent="createVault">
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultName" placeholder="Title">
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultDescription" placeholder="Description">
+                    <button class="btn btn-warning col-1" type="submit">Create</button>
                   </form>
                 </div>
               </div>
@@ -63,7 +60,8 @@ export default {
       keepDescription: "",
       keepImg: "",
       vaultName: "",
-      vaultDescription: ""
+      vaultDescription: "",
+      isPrivate: 0
     };
   },
   computed: {
@@ -86,16 +84,19 @@ export default {
     }
   },
   methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
     createKeep() {
-      if (!document.getElementsByName("private").checked) {
-        this.isPrivate = 0;
+      if (document.getElementsByName("private")[0].checked) {
+        this.isPrivate = 1;
       }
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
         userId: this.user.id,
         img: this.keepImg,
-        isPrivate: 1
+        isPrivate: this.isPrivate
       };
       this.$store.dispatch("createKeeps", keepData);
       this.keepName = "";

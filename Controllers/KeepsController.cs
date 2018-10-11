@@ -32,7 +32,7 @@ namespace keepr.Controllers
         {
             return _repo.GetByVaultId(id);
         }
-          [HttpGet("vaultkeeps/")]
+        [HttpGet("vaultkeeps/")]
         public IEnumerable<VaultKeep> GetVaultKeeps()
         {
             return _repo.GetAllVaultKeeps();
@@ -52,7 +52,7 @@ namespace keepr.Controllers
         [HttpPost("{vaultkeeps}")]
         public VaultKeep PostVaultKeep([FromBody] VaultKeep vk)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 vk = new VaultKeep(vk.UserId, vk.KeepId, vk.VaultId);
                 return _repo.CreateVaultKeep(vk);
@@ -61,7 +61,7 @@ namespace keepr.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Keep keep)
+        public void Put([FromBody] Keep keep)
         {
             _repo.Update(keep);
         }
@@ -69,7 +69,8 @@ namespace keepr.Controllers
 
         [HttpDelete("vaultkeeps/{keepid}/{vaultId}")]
 
-        public void DeleteVaultKeeps(int keepId, int vaultId){
+        public void DeleteVaultKeeps(int keepId, int vaultId)
+        {
             _repo.DeleteVaultKeep(keepId, vaultId);
         }
 

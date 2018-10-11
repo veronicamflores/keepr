@@ -2,7 +2,10 @@
 <div class="row myvaults mb-2 mt-2  d-flex justify-content-around">
 <div class="col-5 bd-round mt-2 mb-2" v-for="vault in userVaults" :key="vault.id">
         <div class="row">
-            <div class="col-12 bg-black"><p>{{vault.name}} <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span></p></div>
+            <div class="col-12 bg-black d-flex justify-content-between">
+              <p><strong>{{vault.name}}</strong></p> 
+              <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt"></i>&nbsp;</p></span>
+              </div>
             <div class="col-12">
                 <VaultKeeps :vaultId="vault.id" class="d-flex justify-content-center"/>
             </div>
@@ -18,6 +21,10 @@ export default {
     userVaults() {
       return this.$store.state.vaults;
     }
+  },
+  mounted() {
+    this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
+    this.$store.dispatch("getUserVaults", this.$store.state.user.id);
   },
   methods: {
     deleteVaults(vaultData) {

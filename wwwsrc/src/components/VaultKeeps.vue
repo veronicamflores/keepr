@@ -1,8 +1,12 @@
 <template>
 <div class="row vaultkeeps">
-    <div class="col-6 mt-1 mb-1" v-for="keep in vaultKeep" :key="keep.id">
+    <div class="col-6 mt-3 mb-3" v-for="keep in vaultKeep" :key="keep.id">
         <img :src="keep.img" class="img-fluid bd-round" :alt="keep.name">
-        <span @click="removeFromVault(keep.id)"><i class="fas fa-times-circle"></i></span>
+        <p>
+          <span @click="removeFromVault(keep.id)"><i class="fas fa-times-circle"></i></span> &nbsp;
+          <span v-if="user.id == keep.userId"><i class="fas fa-trash-alt"></i></span>
+        </p>
+        
     </div>
 </div>
 </template>
@@ -14,6 +18,9 @@ export default {
     this.$store.dispatch("getVaultKeeps", this.vaultId);
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     vaultKeep() {
       return this.$store.state.vaultKeeps[this.vaultId];
     }
