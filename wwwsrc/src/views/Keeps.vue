@@ -29,7 +29,7 @@
               </div>
     <div class="row">
 <div class="col-3  mb-2 mt-2" v-for="keep in userKeeps" :key="keep.id">
-        <div class="card round-border">
+        <div class="card round-border bd-round">
             <img :src="keep.img" class="card-img-top" :alt="keep.name">
             <div class="card-body">
                 <h4 class="card-title">{{keep.name}}</h4>
@@ -40,18 +40,16 @@
                 <span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
                 <span><i class="fas fa-edit"></i> &nbsp;</span>
                 <span><i class="fas fa-folder-plus"></i></span>
-                <form>
-                  <select @click="addToVault(keep.id)" v-model="newVaultId">
-                    <option v-for="vault in vaults" :key="vault.id" :value="vault.id">{{vault.name}}</option>
-                  </select>
-                </form>
+                <span v-for="vault in vaults" :key="vault.id">
+                  <p @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</p>
+                </span>
             </div> 
         </div>
     </div>
     </div>
     
 </div>
-</template>
+</template>   
 
 <script>
 export default {
@@ -60,8 +58,7 @@ export default {
     return {
       keepName: "",
       keepDescription: "",
-      keepImg: "",
-      newVaultId: ""
+      keepImg: ""
     };
   },
   created() {
@@ -74,7 +71,6 @@ export default {
       this.$store.dispatch("deleteKeeps", keepData);
     },
     createKeep() {
-      debugger;
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
@@ -87,12 +83,13 @@ export default {
       this.keepDescription = "";
       this.keepImg = "";
     },
-    addToVault(keepId) {
+    addToVault(data) {
       let vaultKeepData = {
-        keepId: keepId,
-        vaultId: this.newVaultId,
+        keepId: data.keepId,
+        vaultId: data.vaultId,
         userId: this.user.id
       };
+      this.$store.dispatch("makeVaultKeeps", vaultKeepData);
     }
   },
   computed: {
@@ -111,5 +108,8 @@ export default {
 <style>
 .round-border {
   border-radius: 10px;
+}
+p:hover {
+  color: blue;
 }
 </style>

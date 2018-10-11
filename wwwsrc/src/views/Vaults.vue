@@ -23,12 +23,12 @@
                   </form>
                 </div>
               </div>
-    <div class="row">
-        <div class="col-6 bd-round " v-for="vault in userVaults" :key="vault.id">
+    <div class="row d-flex justify-content-around ">
+        <div class="col-5 bd-round mt-2 mb-2" v-for="vault in userVaults" :key="vault.id">
         <div class="row">
             <div class="col-12 bg-black"><p>{{vault.name}}</p></div>
             <div class="col-12">
-                <VaultKeeps :vaultId="vault.id"/>
+                <VaultKeeps :vaultId="vault.id" class=" d-flex justify-content-center"/>
             </div>
         </div>
         </div> 

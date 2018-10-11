@@ -39,6 +39,8 @@ export default {
     this.$store.dispatch("getAllKeeps");
   },
   mounted() {
+    this.$store.dispatch("authenticate");
+    this.$store.dispatch("getVaultKeepsId");
     this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
     this.$store.dispatch("getUserVaults", this.$store.state.user.id);
     this.$store.dispatch("getAllKeeps");

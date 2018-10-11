@@ -73,10 +73,15 @@ namespace keepr.Repositories
             return vk;
         }
 
-        //VaultKeeps DELETE
-        public void DeleteVaultKeep(int id)
+        //vaultkeeps get
+       public IEnumerable<VaultKeep> GetAllVaultKeeps()
         {
-            _db.Execute("DELETE FROM vaultkeeps WHERE id = @id", new {id});
+            return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps;");
+        }
+        //VaultKeeps DELETE
+        public void DeleteVaultKeep(int keepId, int vaultId)
+        {
+            _db.Execute("DELETE FROM vaultkeeps WHERE vaultId = @vaultId AND keepId = @keepId", new {keepId, vaultId});
         }
     }
 }

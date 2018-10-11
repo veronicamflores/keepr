@@ -23,7 +23,8 @@ export default new Vuex.Store({
     keeps: [],
     userKeeps: [],
     vaults: [],
-    vaultKeeps: {}
+    vaultKeeps: {},
+    vaultKeepsId: {}
   },
   mutations: {
     setUser(state, user) {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
     },
     setVaultKeeps(state, data) {
       Vue.set(state.vaultKeeps, data.vaultId, data.keeps);
+    },
+    setVaultKeepsId(state, data) {
+      Vue.set(state.vaultKeepsId, data.vaultId, data.vaultkeeps)
     }
   },
   actions: {
@@ -57,7 +61,7 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'profile' })
+          //router.push({ name: 'profile' })
         })
         .catch(e => {
           console.log('not authenticated')
@@ -115,7 +119,7 @@ export default new Vuex.Store({
         })
     },
     deleteVaults({ dispatch }, vaultData) {
-      api.post("vaults/" + vaultData.id, vaultData.id)
+      api.delete("vaults/" + vaultData.id, vaultData.id)
         .then(res => {
           dispatch("getUserVaults", vaultData.userId)
         })
@@ -127,6 +131,12 @@ export default new Vuex.Store({
           commit("setVaultKeeps", { vaultId, keeps: res.data })
         })
     },
+    getVaultKeepsId({ commit }) {
+      api.get("keeps/vaultkeeps/")
+        .then(res => {
+          commit("setVaultKeepsId", { vaultId: res.data.vaultId, vaultKeeps: res.data })
+        })
+    },
     //add a keep to a vault
     makeVaultKeeps({ dispatch }, vaultKeepData) {
       api.post("keeps/vaultkeeps/", vaultKeepData)
@@ -136,7 +146,7 @@ export default new Vuex.Store({
     },
     //remove a keep from a vault
     deleteVaultKeeps({ dispatch }, vaultKeepData) {
-      api.delete("keeps/vaultkeeps/" + vaultKeepData.id, vaultKeepData.id)
+      api.delete("keeps/vaultkeeps/" + vaultKeepData.keepId + "/" + vaultKeepData.vaultId)
         .then(res => {
           dispatch("getVaultKeeps", vaultKeepData.vaultId)
         })

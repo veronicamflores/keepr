@@ -32,6 +32,11 @@ namespace keepr.Controllers
         {
             return _repo.GetByVaultId(id);
         }
+          [HttpGet("vaultkeeps/")]
+        public IEnumerable<VaultKeep> GetVaultKeeps()
+        {
+            return _repo.GetAllVaultKeeps();
+        }
 
         [HttpPost]
         public Keep Post([FromBody] Keep keep)
@@ -60,10 +65,14 @@ namespace keepr.Controllers
         {
             _repo.Update(keep);
         }
-        [HttpDelete("vaultkeeps/{id}")]
-        public void DeleteVaultKeep(int id){
-            _repo.DeleteVaultKeep(id);
+
+
+        [HttpDelete("vaultkeeps/{keepid}/{vaultId}")]
+
+        public void DeleteVaultKeeps(int keepId, int vaultId){
+            _repo.DeleteVaultKeep(keepId, vaultId);
         }
+
         [HttpDelete("{id}")]
 
         public void Delete(int id)

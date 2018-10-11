@@ -1,10 +1,10 @@
 <template>
-<div class="row myvaults mb-2 mt-2  d-flex justify-content-center">
-<div class="col-4 bd-round" v-for="vault in userVaults" :key="vault.id">
+<div class="row myvaults mb-2 mt-2  d-flex justify-content-around">
+<div class="col-5 bd-round mt-2 mb-2" v-for="vault in userVaults" :key="vault.id">
         <div class="row">
-            <div class="col-12 bg-black"><p>{{vault.name}}</p></div>
+            <div class="col-12 bg-black"><p>{{vault.name}} <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span></p></div>
             <div class="col-12">
-                <VaultKeeps :vaultId="vault.id"/>
+                <VaultKeeps :vaultId="vault.id" class="d-flex justify-content-center"/>
             </div>
         </div>
     </div>
@@ -17,6 +17,11 @@ export default {
   computed: {
     userVaults() {
       return this.$store.state.vaults;
+    }
+  },
+  methods: {
+    deleteVaults(vaultData) {
+      this.$store.dispatch("deleteVaults", vaultData);
     }
   },
   components: {
