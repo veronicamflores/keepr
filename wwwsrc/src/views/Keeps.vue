@@ -4,7 +4,10 @@
           <div class="col-2 mt-2 mb-2">
             <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
           </div>
-          <div class="col-8 mt-2 mb-2">
+          <div class="col-2 mt-2 mb-2">
+            <p>Hello {{user.username}}</p>
+          </div>
+          <div class="col-6 mt-2 mb-2">
             <router-link to="/profile"><a>Profile</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
@@ -37,6 +40,11 @@
                 <span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
                 <span><i class="fas fa-edit"></i> &nbsp;</span>
                 <span><i class="fas fa-folder-plus"></i></span>
+                <form>
+                  <select @click="addToVault(keep.id)" v-model="newVaultId">
+                    <option v-for="vault in vaults" :key="vault.id" :value="vault.id">{{vault.name}}</option>
+                  </select>
+                </form>
             </div> 
         </div>
     </div>
@@ -52,7 +60,8 @@ export default {
     return {
       keepName: "",
       keepDescription: "",
-      keepImg: ""
+      keepImg: "",
+      newVaultId: ""
     };
   },
   created() {
@@ -65,6 +74,7 @@ export default {
       this.$store.dispatch("deleteKeeps", keepData);
     },
     createKeep() {
+      debugger;
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
@@ -76,11 +86,24 @@ export default {
       this.keepName = "";
       this.keepDescription = "";
       this.keepImg = "";
+    },
+    addToVault(keepId) {
+      let vaultKeepData = {
+        keepId: keepId,
+        vaultId: this.newVaultId,
+        userId: this.user.id
+      };
     }
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     userKeeps() {
       return this.$store.state.userKeeps;
+    },
+    vaults() {
+      return this.$store.state.vaults;
     }
   }
 };

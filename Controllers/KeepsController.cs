@@ -60,7 +60,10 @@ namespace keepr.Controllers
         {
             _repo.Update(keep);
         }
- 
+        [HttpDelete("vaultkeeps/{id}")]
+        public void DeleteVaultKeep(int id){
+            _repo.DeleteVaultKeep(id);
+        }
         [HttpDelete("{id}")]
 
         public void Delete(int id)

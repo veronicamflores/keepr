@@ -74,10 +74,9 @@ namespace keepr.Repositories
         }
 
         //VaultKeeps DELETE
-        public VaultKeep Delete(VaultKeep vk)
+        public void DeleteVaultKeep(int id)
         {
-            _db.Execute("DELETE FROM vaultkeeps WHERE id = @Id", vk);
-            return vk;
+            _db.Execute("DELETE FROM vaultkeeps WHERE id = @id", new {id});
         }
     }
 }

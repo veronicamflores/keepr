@@ -4,7 +4,10 @@
           <div class="col-2 mt-2 mb-2">
             <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
           </div>
-          <div class="col-8 mt-2 mb-2">
+          <div class="col-2 mt-2 mb-2">
+            <p>Hello {{user.username}}</p>
+          </div>
+          <div class="col-6 mt-2 mb-2">
             <router-link to="/profile"><a>Profile</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
@@ -22,8 +25,8 @@
                     <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Keep Name">
                     <input class="form-control p-2 col-3" type="text" v-model="keepDescription" placeholder="Keep Description">
                     <input class="form-control p-2 col-2" type="text" v-model="keepImg" placeholder="Keep Img">
-                    <label for="private">Private?</label>
-                    <input type="checkbox" name="private" class="form-control" unchecked>
+                    <!-- <label for="private">Private?</label>
+                    <input type="checkbox" name="private" class="form-control" unchecked> -->
                     <button class="btn col-1" type="submit">+</button>
                   </form>
                 </div>
