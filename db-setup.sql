@@ -58,11 +58,8 @@
 --         REFERENCES keeps(id)
 --         ON DELETE CASCADE
 -- )
+-- ALTER TABLE keeps
+-- ADD username VARCHAR(255) NOT NULL;
 
 
--- -- USE THIS LINE FOR GET KEEPS BY VAULTID
--- SELECT * FROM vaultkeeps vk
--- INNER JOIN keeps k ON k.id = vk.keepId 
--- WHERE (vaultId = @vaultId) 
-
--- DELETE FROM vaults WHERE id = 4 
+-- DELETE FROM keeps WHERE id = 2;

@@ -2,9 +2,10 @@
 <div class="row vaultkeeps">
     <div class="col-6 mt-3 mb-3" v-for="keep in vaultKeep" :key="keep.id">
         <img :src="keep.img" class="img-fluid bd-round" :alt="keep.name">
+        <p>author : {{keep.username}}</p>
         <p>
-          <span @click="removeFromVault(keep.id)"><i class="fas fa-times-circle"></i></span> &nbsp;
-          <span v-if="user.id == keep.userId"><i class="fas fa-trash-alt"></i></span>
+          <span @click="removeFromVault(keep.id)"><i class="fas fa-times-circle clickable"></i></span> &nbsp;
+          <span v-if="user.id == keep.userId"><i class="fas fa-trash-alt clickable"></i></span>
         </p>
         
     </div>

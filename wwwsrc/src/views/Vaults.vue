@@ -2,24 +2,24 @@
 <div class="container-fluid vaults">
      <nav class="navbar row yellow-bg">
           <div class="col-2 mt-2 mb-2">
-            <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
+            <router-link class="navbar-brand" to="/"><a>KEEPR</a></router-link>
           </div>
           <div class="col-8 mt-2 mb-2">
-            <router-link to="/profile"><a>Profile</a></router-link> |
+            <router-link to="/profile"><a>DashBoard</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
           </div>
           <div class="col-2 mt-2 mb-2">
-            <a href="#">Logout</a>
+            <button @click="logout" class="btn btn-danger">Logout</button>
           </div>
         </nav>
         <div class="row mt-2 mb-2">
                 <div class="col-12"><h2>My Vaults</h2></div>
                 <div class="col-12">
                   <form class="form-inline row d-flex justify-content-around" @submit.prevent="createVault">
-                    <input class="form-control p-2 col-5" type="text" v-model="vaultName" placeholder="Vault Title">
-                    <input class="form-control p-2 col-5" type="text" v-model="vaultDescription" placeholder="Vault Description">
-                    <button class="btn btn-warning col-1" type="submit">Create Vault</button>
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultName" placeholder="Title">
+                    <input class="form-control p-2 col-5" type="text" v-model="vaultDescription" placeholder="Description">
+                    <button class="btn btn-warning col-1" type="submit"><i class="fas fa-plus"></i></button>
                   </form>
                 </div>
               </div>
@@ -28,8 +28,8 @@
         <div class="row">
             <div class="col-12 bg-black d-flex justify-content-between">
               <p>{{vault.name}}</p>
-              <span @click="makeEditVisible(vault.id)" ><p><i class="fas fa-edit"></i></p> &nbsp;</span>
-              <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt"></i>&nbsp;</p></span>
+              <span @click="makeEditVisible(vault.id)" ><p><i class="fas fa-edit clickable"></i></p> &nbsp;</span>
+              <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt clickable"></i>&nbsp;</p></span>
             </div>
             <div class="col-12" v-if="editVisible == vault.id">
                   <form @submit.prevent="editNameVault({id: vault.id, userId: vault.userId, description: vault.description, name: nameVault})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameVault" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
@@ -69,6 +69,9 @@ export default {
     }
   },
   methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
     makeEditVisible(vaultId) {
       if (vaultId != this.editVisible) {
         this.editVisible = vaultId;

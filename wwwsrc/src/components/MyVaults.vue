@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-12 bg-black d-flex justify-content-between">
               <p><strong>{{vault.name}}</strong></p> 
-              <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt"></i>&nbsp;</p></span>
+              <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt clickable"></i>&nbsp;</p></span>
               </div>
             <div class="col-12">
                 <VaultKeeps :vaultId="vault.id" class="d-flex justify-content-center"/>

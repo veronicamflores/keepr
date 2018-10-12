@@ -2,10 +2,10 @@
     <div class="profile container-fluid">
         <nav class="navbar row yellow-bg">
           <div class="col-2 mt-2 mb-2">
-            <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
+            <router-link class="navbar-brand" to="/"><a>KEEPR</a></router-link>
           </div>
           <div class="col-6 mt-2 mb-2">
-            <router-link to="/profile"><a>Profile</a></router-link> |
+            <router-link to="/profile"><a>Dashboard</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
           </div>
@@ -19,12 +19,13 @@
                 <div class="col-3"><h2>My Keeps</h2></div>
                 <div class="col-9">
                   <form class="form-inline row d-flex justify-content-around" @submit.prevent="createKeep">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Title">
-                    <input class="form-control p-2 col-4" type="text" v-model="keepDescription" placeholder="Description">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepImg" placeholder="Img">
-                    <label for="private">Private?</label>
-                    <input type="checkbox" name="private" class="form-control" unchecked>
-                    <button class="btn btn-warning col-1" type="submit">Create</button>
+                    <input class="form-control p-2 col-2" type="text" v-model="keepName" placeholder="Title">
+                    <input class="form-control p-2 col-3" type="text" v-model="keepDescription" placeholder="Description">
+                    <input class="form-control p-2 col-2" type="text" v-model="keepImg" placeholder="Img">
+                    <div class="col-1">
+                    <label for="private">Private?</label> <input type="checkbox" name="private" class="form-control" unchecked>
+                    </div>
+                    <button class="btn btn-warning col-1" type="submit"><i class="fas fa-plus"></i></button>
                   </form>
                 </div>
               </div>
@@ -39,7 +40,7 @@
                   <form class="form-inline row d-flex justify-content-around" @submit.prevent="createVault">
                     <input class="form-control p-2 col-5" type="text" v-model="vaultName" placeholder="Title">
                     <input class="form-control p-2 col-5" type="text" v-model="vaultDescription" placeholder="Description">
-                    <button class="btn btn-warning col-1" type="submit">Create</button>
+                    <button class="btn btn-warning col-1" type="submit"><i class="fas fa-plus"></i></button>
                   </form>
                 </div>
               </div>
@@ -94,6 +95,7 @@ export default {
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
+        username: this.user.username,
         userId: this.user.id,
         img: this.keepImg,
         isPrivate: this.isPrivate

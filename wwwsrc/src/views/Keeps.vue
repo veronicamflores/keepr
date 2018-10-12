@@ -2,30 +2,28 @@
 <div class="keeps container-fluid">
         <nav class="navbar row yellow-bg">
           <div class="col-2 mt-2 mb-2">
-            <router-link class="navbar-brand" to="/"><a>PNTRST</a></router-link>
-          </div>
-          <div class="col-2 mt-2 mb-2">
-            <p>Hello {{user.username}}</p>
+            <router-link class="navbar-brand" to="/"><a>KEEPR</a></router-link>
           </div>
           <div class="col-6 mt-2 mb-2">
-            <router-link to="/profile"><a>Profile</a></router-link> |
+            <router-link to="/profile"><a>DashBoard</a></router-link> |
             <router-link to="/profile/keeps"><a>My Keeps</a></router-link> | 
             <router-link to="/profile/vaults"><a>My Vaults</a></router-link>
           </div>
           <div class="col-2 mt-2 mb-2">
-            <a href="#">Logout</a>
+            <button @click="logout" class="btn btn-danger">Logout</button>
           </div>
         </nav>
         <div class="row mt-2 mb-2">
                 <div class="col-12"><h2>My Keeps</h2></div>
                 <div class="col-12">
-                  <form class="form-inline row d-flex justify-content-around" @submit.prevent="createKeep">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepName" placeholder="Keep Title">
-                    <input class="form-control p-2 col-4" type="text" v-model="keepDescription" placeholder="Keep Description">
-                    <input class="form-control p-2 col-3" type="text" v-model="keepImg" placeholder="Keep Img">
-                    <label for="private">Private?</label>
-                    <input type="checkbox" name="private" class="form-control" unchecked>
-                    <button class="btn btn-warning col-1" type="submit">Create Keep</button>
+                 <form class="form-inline row d-flex justify-content-around" @submit.prevent="createKeep">
+                    <input class="form-control p-2 col-2" type="text" v-model="keepName" placeholder="Title">
+                    <input class="form-control p-2 col-4" type="text" v-model="keepDescription" placeholder="Description">
+                    <input class="form-control p-2 col-2" type="text" v-model="keepImg" placeholder="Img">
+                    <div class="col-1">
+                    <label for="private">Private?</label> <input type="checkbox" name="private" class="form-control" unchecked>
+                    </div>
+                    <button class="btn btn-warning col-1" type="submit"><i class="fas fa-plus"></i></button>
                   </form>
                 </div>
               </div>
@@ -37,16 +35,16 @@
                 <h4 class="card-title">{{keep.name}}</h4>
                 <p class="card-text">{{keep.description}}</p>
                 <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}   <i class="far fa-eye"></i>: {{keep.views}} </p>
-                <p><span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
-                <span @click="makeEditVisible(keep.id)" ><i class="fas fa-edit"></i> &nbsp;</span>
-                <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus"></i></span></p>
+                <p><span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt clickable"></i>&nbsp;</span>
+                <span @click="makeEditVisible(keep.id)" ><i class="fas fa-edit clickable"></i> &nbsp;</span>
+                <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus clickable"></i></span></p>
                 <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
                   <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData:{id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: keep.name}})">{{vault.name}}</button>
                 </span>
                 <span v-if="editVisible == keep.id" class="">
-                  <form @submit.prevent="editNameKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: nameKeep})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
-                  <form @submit.prevent="editDescriptionKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: descripKeep, isPrivate: keep.isPrivate, name: keep.name})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="descripKeep" placeholder="Description"> <button class="btn btn-success col-2 form-control">+</button> </form>
-                  <form @submit.prevent="editViewKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: privateKeep, name: keep.name})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="privateKeep" placeholder="Private/Public"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                  <form @submit.prevent="editNameKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: nameKeep, username: keep.username})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
+                  <form @submit.prevent="editDescriptionKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: descripKeep, isPrivate: keep.isPrivate, name: keep.name, username: keep.username})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="descripKeep" placeholder="Description"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                  <form @submit.prevent="editViewKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: privateKeep, name: keep.name, username: keep.username})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="privateKeep" placeholder="Private/Public"> <button class="btn btn-success col-2 form-control">+</button> </form>
                 </span>
             </div> 
         </div>
@@ -78,6 +76,9 @@ export default {
     }
   },
   methods: {
+    logout() {
+      this.$store.dispatch("logout");
+    },
     makeEditVisible(keepId) {
       if (keepId != this.editVisible) {
         this.editVisible = keepId;
@@ -96,9 +97,13 @@ export default {
       this.$store.dispatch("deleteKeeps", keepData);
     },
     createKeep() {
+      if (document.getElementsByName("private")[0].checked) {
+        this.isPrivate = 1;
+      }
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
+        username: this.user.name,
         userId: this.user.id,
         img: this.keepImg,
         isPrivate: this.isPrivate
