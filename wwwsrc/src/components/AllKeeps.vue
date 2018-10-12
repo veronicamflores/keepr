@@ -7,7 +7,7 @@
                     <h4 class="card-title">{{keep.name}}</h4>
                     <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}&nbsp; <i class="far fa-eye"></i>: {{keep.views}} &nbsp;</p>
                     <p>
-                      <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus clickable"></i></span>&nbsp;
+                      <span v-if="userId != null" @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus clickable"></i></span>&nbsp;
                       <span @click="showModal({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name:keep.name, username: keep.username})"><i class="far fa-eye clickable"></i></span>
                       <modal v-show="isModalVisible == keep.id" @close="closeModal" :keep="keep"></modal>
                     </p>
@@ -77,9 +77,6 @@ export default {
 <style>
 .clickable:hover {
   cursor: pointer;
-}
-.keep {
-  column-count: 3;
 }
 </style>
 
