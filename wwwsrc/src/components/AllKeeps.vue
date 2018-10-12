@@ -6,12 +6,12 @@
                 <div class="card-body">
                     <h4 class="card-title">{{keep.name}}</h4>
                     <p class="card-text">{{keep.description}}</p>
-                    <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}&nbsp; <i class="far fa-eye"></i>: {{keep.views}} &nbsp; <i class="fas fa-share"></i>: {{keep.shares}}</P>
+                    <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}&nbsp; <i class="far fa-eye"></i>: {{keep.views}} &nbsp;</p>
                     <p>
-                        <span @click="addVisible = !addVisible"><i class="fas fa-folder-plus"></i></span>&nbsp;
+                        <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus"></i></span>&nbsp;
                         <span v-if="userId == keep.userId"><i class="fas fa-trash-alt"></i></span>
                     </p>
-                    <span v-if="addVisible" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
+                    <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
                         <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData: {id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name:keep.name}})">{{vault.name}}</button>
                     </span>
                 </div> 
@@ -25,7 +25,7 @@ export default {
   name: "allkeeps",
   data() {
     return {
-      addVisible: false
+      addVisible: ""
     };
   },
   computed: {
@@ -37,6 +37,13 @@ export default {
     }
   },
   methods: {
+    makeAddVisible(keepId) {
+      if (keepId != this.addVisible) {
+        this.addVisible = keepId;
+      } else {
+        this.addVisible = "";
+      }
+    },
     addToVault(data) {
       let vaultKeepData = {
         keepId: data.vaultKeep.keepId,
@@ -45,10 +52,10 @@ export default {
       };
       this.$store.dispatch("makeVaultKeeps", vaultKeepData);
       data.keepData.keeps += 1;
-      UpdateKeeps(keepData);
+      this.updateKeeps(data.keepData);
     },
-    UpdateKeeps(keepData) {
-      this.$store.dispatch("updateUserKeeps", keepData);
+    updateKeeps(keepData) {
+      this.$store.dispatch("updateUserKeep", keepData);
     }
   },
   props: ["userId"]

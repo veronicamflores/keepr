@@ -41,7 +41,7 @@
                 <span @click="makeEditVisible(keep.id)" ><i class="fas fa-edit"></i> &nbsp;</span>
                 <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus"></i></span></p>
                 <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
-                  <button class="btn btn-success mt-1 mb-1" @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</button>
+                  <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData:{id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: keep.name}})">{{vault.name}}</button>
                 </span>
                 <span v-if="editVisible == keep.id" class="">
                   <form @submit.prevent="editNameKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: nameKeep})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
@@ -110,11 +110,16 @@ export default {
     },
     addToVault(data) {
       let vaultKeepData = {
-        keepId: data.keepId,
-        vaultId: data.vaultId,
+        keepId: data.valtKeep.keepId,
+        vaultId: data.vaultKeep.vaultId,
         userId: this.user.id
       };
       this.$store.dispatch("makeVaultKeeps", vaultKeepData);
+      data.keepData.keeps += 1;
+      this.updateKeeps(data.keepData);
+    },
+    updateKeeps(keepData) {
+      this.$store.dispatch("updateUserKeep", keepData);
     },
     editNameKeep(keepData) {
       this.$store.dispatch("updateUserKeep", keepData);
