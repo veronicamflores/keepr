@@ -61,11 +61,11 @@ namespace keepr.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put([FromBody] Keep keep)
+        public Keep Put(int id, [FromBody] Keep keep)
         {
-            _repo.Update(keep);
+            keep.Id = id;
+            return _repo.Update(keep);
         }
-
 
         [HttpDelete("vaultkeeps/{keepid}/{vaultId}")]
 

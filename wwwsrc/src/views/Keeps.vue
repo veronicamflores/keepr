@@ -36,17 +36,17 @@
             <div class="card-body">
                 <h4 class="card-title">{{keep.name}}</h4>
                 <p class="card-text">{{keep.description}}</p>
-                <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}   <i class="far fa-eye"></i>: {{keep.views}}   <i class="fas fa-bookmark"></i>: {{keep.shares}}</p>
+                <p><i class="fas fa-thumbtack"></i>: {{keep.keeps}}   <i class="far fa-eye"></i>: {{keep.views}} </p>
                 <p><span @click="deleteKeeps({id: keep.id, userId: keep.userId})"><i class="fas fa-trash-alt"></i>&nbsp;</span>
-                <span @click="editVisible = !editVisible" ><i class="fas fa-edit"></i> &nbsp;</span>
-                <span @click="addVisible = !addVisible"><i class="fas fa-folder-plus"></i></span></p>
-                <span v-if="addVisible" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
+                <span @click="makeEditVisible(keep.id)" ><i class="fas fa-edit"></i> &nbsp;</span>
+                <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus"></i></span></p>
+                <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
                   <button class="btn btn-success mt-1 mb-1" @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</button>
                 </span>
-                <span v-if="editVisible" class="">
-                  <form @submit.prevent="editNameKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control">+</button> </form>
-                  <form @submit.prevent="editDescriptionKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Description"> <button class="btn btn-success col-2 form-control">+</button> </form>
-                  <form @submit.prevent="editViewKeep(keep.id)" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Private/Public"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                <span v-if="editVisible == keep.id" class="">
+                  <form @submit.prevent="editNameKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: nameKeep})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
+                  <form @submit.prevent="editDescriptionKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: descripKeep, isPrivate: keep.isPrivate, name: keep.name})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="descripKeep" placeholder="Description"> <button class="btn btn-success col-2 form-control">+</button> </form>
+                  <form @submit.prevent="editViewKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: privateKeep, name: keep.name})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="privateKeep" placeholder="Private/Public"> <button class="btn btn-success col-2 form-control">+</button> </form>
                 </span>
             </div> 
         </div>
@@ -66,7 +66,10 @@ export default {
       keepImg: "",
       addVisible: false,
       editVisible: false,
-      isPrivate: 0
+      isPrivate: 0,
+      nameKeep: "",
+      descripKeep: "",
+      privateKeep: ""
     };
   },
   created() {
@@ -75,6 +78,20 @@ export default {
     }
   },
   methods: {
+    makeEditVisible(keepId) {
+      if (keepId != this.editVisible) {
+        this.editVisible = keepId;
+      } else {
+        this.editVisible = "";
+      }
+    },
+    makeAddVisible(keepId) {
+      if (keepId != this.addVisible) {
+        this.addVisible = keepId;
+      } else {
+        this.addVisible = "";
+      }
+    },
     deleteKeeps(keepData) {
       this.$store.dispatch("deleteKeeps", keepData);
     },
@@ -99,9 +116,18 @@ export default {
       };
       this.$store.dispatch("makeVaultKeeps", vaultKeepData);
     },
-    editNameKeep(keepId) {},
-    editDescriptionKeep(keepId) {},
-    editPrivateKeep(keepId) {}
+    editNameKeep(keepData) {
+      this.$store.dispatch("updateUserKeep", keepData);
+      this.nameKeep = "";
+    },
+    editDescriptionKeep(keepData) {
+      this.$store.dispatch("updateUserKeep", keepData);
+      this.descripKeep = "";
+    },
+    editPrivateKeep(keepData) {
+      this.$store.dispatch("updateUserKeep", keepData);
+      this.privateKeep = "";
+    }
   },
   computed: {
     user() {

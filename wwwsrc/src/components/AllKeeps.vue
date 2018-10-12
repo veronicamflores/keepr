@@ -12,7 +12,7 @@
                         <span v-if="userId == keep.userId"><i class="fas fa-trash-alt"></i></span>
                     </p>
                     <span v-if="addVisible" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
-                        <button class="btn btn-success mt-1 mb-1" @click="addToVault({keepId: keep.id, vaultId: vault.id})">{{vault.name}}</button>
+                        <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData: {id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name:keep.name}})">{{vault.name}}</button>
                     </span>
                 </div> 
             </div>
@@ -39,11 +39,16 @@ export default {
   methods: {
     addToVault(data) {
       let vaultKeepData = {
-        keepId: data.keepId,
-        vaultId: data.vaultId,
+        keepId: data.vaultKeep.keepId,
+        vaultId: data.vaultKeep.vaultId,
         userId: this.userId
       };
       this.$store.dispatch("makeVaultKeeps", vaultKeepData);
+      data.keepData.keeps += 1;
+      UpdateKeeps(keepData);
+    },
+    UpdateKeeps(keepData) {
+      this.$store.dispatch("updateUserKeeps", keepData);
     }
   },
   props: ["userId"]

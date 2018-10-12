@@ -51,11 +51,10 @@ namespace keepr.Repositories
         public Keep Update(Keep keep)
         {
             _db.Execute(@"
-      UPDATE keeps SET (name, description, img, isPrivate, keeps, views, shares, userId) 
-      VALUES (@Name, @Description, @Img, @IsPrivate, @Keeps, @Views, @Shares, @UserId)
-      WHERE id = @Id
-      ", keep);
-            return keep;
+        UPDATE keeps
+        SET name = @Name, description = @Description, img = @Img, isPrivate = @IsPrivate, keeps = @Keeps, views = @Views
+        WHERE id = @Id", keep);
+        return keep;
         }
 
         //DELETE KEEP
