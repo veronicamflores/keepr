@@ -1,6 +1,6 @@
 <template>
     <div class="keep row">
-        <div class="col-md-3 col-sm-6 col-xs-12 mt-4" v-for="keep in keeps" :key="keep.id" v-if="keep.isPrivate == 0" >
+        <div class="col-md-3 col-sm-6 col-xs-12 mt-4" v-for="keep in keeps" :key="keep.id" >
             <div class="card bd-round">
                <img :src="keep.img" class="card-img-top" :alt="keep.name">
                 <div class="card-body">
@@ -9,7 +9,7 @@
                     <p>
                       <span v-if="userId != null" @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus clickable"></i></span>&nbsp;
                       <span @click="showModal({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name:keep.name, username: keep.username})"><i class="far fa-eye clickable"></i></span>
-                      <modal v-show="isModalVisible == keep.id" @close="closeModal" :keep="keep"></modal>
+                      <modal v-show="isModalVisible == keep.id" @close="closeModal" :keep="keep" :userId="userId"></modal>
                     </p>
                     <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
                         <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData: {id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name:keep.name, username: keep.username}})">{{vault.name}}</button>

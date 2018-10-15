@@ -3,18 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace keepr.Models
 {
-    public class VaultKeep{
+    public class VaultKeep
+    {
         public int Id { get; set; }
         [Required]
         public string UserId { get; set; }
         [Required]
-        public int VaultId {get; set;}
+        public int VaultId { get; set; }
         [Required]
-        public int KeepId {get; set;}
+        public int KeepId { get; set; }
 
-        public VaultKeep(){}
+        public VaultKeep() { }
 
-       public VaultKeep( string userId, int keepId, int vaultId)
+        public VaultKeep(string userId, int keepId, int vaultId)
         {
             UserId = userId;
             KeepId = keepId;
@@ -26,7 +27,7 @@ namespace keepr.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string Username {get; set;}
+        public string Username { get; set; }
         [Required]
         [MinLength(6)]
         public string Name { get; set; }

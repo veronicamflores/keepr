@@ -39,7 +39,7 @@
                 <span @click="makeEditVisible(keep.id)" ><i class="fas fa-edit clickable"></i> &nbsp;</span>
                 <span @click="makeAddVisible(keep.id)"><i class="fas fa-folder-plus clickable"></i></span></p>
                 <span v-if="addVisible == keep.id" v-for="vault in vaults" :key="vault.id" class="d-flex justify-content-around">
-                  <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData:{id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: keep.name}})">{{vault.name}}</button>
+                  <button class="btn btn-success mt-1 mb-1" @click="addToVault({vaultKeep:{keepId: keep.id, vaultId: vault.id}, keepData:{id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: keep.name, username: keep.username}})">{{vault.name}}</button>
                 </span>
                 <span v-if="editVisible == keep.id" class="">
                   <form @submit.prevent="editNameKeep({id: keep.id, userId: keep.userId, keeps: keep.keeps, views:keep.views, img: keep.img, description: keep.description, isPrivate: keep.isPrivate, name: nameKeep, username: keep.username})" class="form-inline row d-flex justify-content-around mt-1 mb-1"><input type="text" class="col-8 form-control" v-model="nameKeep" placeholder="Title"> <button class="btn btn-success col-2 form-control" type="submit">+</button> </form>
@@ -69,6 +69,11 @@ export default {
       descripKeep: "",
       privateKeep: ""
     };
+  },
+  mounted() {
+    this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
+    this.$store.dispatch("getUserVaults", this.$store.state.user.id);
+    this.$store.dispatch("getAllKeeps");
   },
   created() {
     if (!this.$store.state.user.id) {
@@ -103,7 +108,7 @@ export default {
       let keepData = {
         name: this.keepName,
         description: this.keepDescription,
-        username: this.user.name,
+        username: this.user.username,
         userId: this.user.id,
         img: this.keepImg,
         isPrivate: this.isPrivate
@@ -114,8 +119,9 @@ export default {
       this.keepImg = "";
     },
     addToVault(data) {
+      debugger;
       let vaultKeepData = {
-        keepId: data.valtKeep.keepId,
+        keepId: data.vaultKeep.keepId,
         vaultId: data.vaultKeep.vaultId,
         userId: this.user.id
       };

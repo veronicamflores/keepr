@@ -3,8 +3,8 @@
 <div class="modal-backdrop">
 <div class="modal">
     <header class="modal-header">
-        <slot class="header d-flex justify-content-between">
-            <p><strong>{{keep.name}}</strong></p> &nbsp; &nbsp; <p>Author: {{keep.username}}</p>
+        <slot class="header d-flex justify-content-center">
+            <p><strong>{{keep.name}}</strong></p>
         </slot>
         </header>
         <div class="modal-body">
@@ -28,7 +28,7 @@
 <script>
 export default {
   name: "modal",
-  props: ["keep"],
+  props: ["keep", "userId"],
   data() {
     return {
       addVisible: ""

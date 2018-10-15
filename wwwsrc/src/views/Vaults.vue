@@ -27,7 +27,7 @@
         <div class="col-5 bd-round mt-2 mb-2" v-for="vault in userVaults" :key="vault.id">
         <div class="row">
             <div class="col-12 bg-black d-flex justify-content-between">
-              <p>{{vault.name}}</p>
+              <p><strong>{{vault.name}}</strong></p>
               <span @click="makeEditVisible(vault.id)" ><p><i class="fas fa-edit clickable"></i></p> &nbsp;</span>
               <span @click="deleteVaults({id: vault.id, userId: vault.userId})"><p><i class="fas fa-trash-alt clickable"></i>&nbsp;</p></span>
             </div>
@@ -62,6 +62,11 @@ export default {
     if (!this.$store.state.user.id) {
       this.$router.push({ name: "home" });
     }
+  },
+  mounted() {
+    this.$store.dispatch("getUserKeeps", this.$store.state.user.id);
+    this.$store.dispatch("getUserVaults", this.$store.state.user.id);
+    this.$store.dispatch("getAllKeeps");
   },
   computed: {
     userVaults() {
